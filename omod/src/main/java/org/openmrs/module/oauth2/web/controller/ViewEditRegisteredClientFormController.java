@@ -39,7 +39,13 @@ public class ViewEditRegisteredClientFormController {
 
     @RequestMapping(value = "/{clientId}", method = RequestMethod.GET)
     public String showForm(@PathVariable Integer clientId, ModelMap map) {
+    	if (log.isDebugEnabled()) {
+    	log.debug("Entering showForm method" + clientId);
+    	}
         Client client = getService().getClient(clientId);
+    	if (log.isDebugEnabled()) {
+        	log.debug("Entering showForm method" + client.toString());
+    	}
         map.addAttribute("client", client);
         // Scopes
         Map<Scope,Boolean> scopeMap = new HashMap<Scope, Boolean>();
@@ -87,6 +93,9 @@ public class ViewEditRegisteredClientFormController {
 
     @RequestMapping(value = "/{clientId}", method = RequestMethod.POST)
     public String editForm(@PathVariable Integer clientId, ModelMap map,HttpServletRequest request) {
+    	if (log.isDebugEnabled()) {
+    	log.debug("entering editform");
+    	}
         Client client = getService().getClient(clientId);
         client.setName(request.getParameter("name"));
         client.setDescription(request.getParameter("description"));
@@ -96,6 +105,9 @@ public class ViewEditRegisteredClientFormController {
         client.setClientType(Client.ClientType.valueOf(clientTypeString));
 
         String redirectionURIString = request.getParameter("registeredRedirectURIs").trim();
+        if (log.isDebugEnabled()) {
+        	log.debug("Redirection URI Strings"+redirectionURIString);
+        }
         Collection<RedirectURI> redirectURICollection= ClientSpringOAuthUtils.commaDelimitedStringToCollection(redirectionURIString,client,RedirectURI.class);
         client.setRedirectUriCollection(redirectURICollection);
 
@@ -113,7 +125,9 @@ public class ViewEditRegisteredClientFormController {
         updateNonFormDetails(client, clientId);
         client = getService().merge(client);
         getService().updateClient(client);
-        log.info("Making edits for client with id" + client.getId());
+        if (log.isDebugEnabled()) {
+        log.debug("Making edits for client with id" + client.getId());
+        }
         List<String> encodedCredentials = getService().encodeCredentials(client);
         map.addAttribute("app_identifier", encodedCredentials.get(0));
         map.addAttribute("app_password", encodedCredentials.get(1));
@@ -129,7 +143,9 @@ public class ViewEditRegisteredClientFormController {
         client = getService().unregisterClient(client);
         //TODO send message that client is unregistered
         String redirectURI = request.getContextPath() + "/" + RegisteredClientIndexController.INDEX_CONTROLLER;
-        log.info("Oauth Client Unregistered : " + client.getName());
+        if (log.isDebugEnabled()) {
+        log.debug("Oauth Client Unregistered : " + client.getName());
+        }
         return new ModelAndView(new RedirectView(redirectURI));
     }
 

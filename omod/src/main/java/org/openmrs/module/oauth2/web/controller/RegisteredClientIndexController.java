@@ -34,7 +34,12 @@ public class RegisteredClientIndexController {
         List<Client> clients = null;
         ClientRegistrationService service = Context.getService(ClientRegistrationService.class);
         User user = Context.getAuthenticatedUser();
+        log.info("user object is"+ (user!=null));
+        if(user!=null && user.getId()!=null) {
         clients = service.getAllClientsForClientDeveloper(user);
+        }else {
+        	log.info("User is null");
+        }
         return clients;
     }
 }

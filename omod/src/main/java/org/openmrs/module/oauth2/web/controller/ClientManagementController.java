@@ -48,7 +48,7 @@ public class ClientManagementController {
 		if (clients.isEmpty()) {
 			return new ResponseEntity<List<JsonMappableClient>>(HttpStatus.NO_CONTENT);
 		}
-		List<JsonMappableClient> jsonMappableClients = new ArrayList<>();
+		List<JsonMappableClient> jsonMappableClients = new ArrayList();
 		for (Client c : clients) {
 			jsonMappableClients.add(new JsonMappableClient(c));
 		}

@@ -19,10 +19,10 @@ public class MetadataController {
 	 */
 	@RequestMapping(value = "/oauth/metadata", method = RequestMethod.GET)
 	public ResponseEntity<HashMap<String,String>> getMetadata(){
-		String fhirUri = "http://localhost:8080/openmrs/ws/fhir";
-		String authUri = "http://localhost:8080/openmrs/ws/oauth/authorize";
-		String tokenUri = "http://localhost:8080/openmrs/ws/oauth/token";
-		HashMap<String,String> metadata = new HashMap<>();
+		String fhirUri = "http://localhost:8081/openmrs-standalone/openmrs/ws/fhir";
+		String authUri = "http://localhost:8081/openmrs-standalone/ws/oauth/authorize";
+		String tokenUri = "http://localhost:8081/openmrs-standalone/ws/oauth/token";
+		HashMap<String,String> metadata = new HashMap();
 		metadata.put("fhirUri",fhirUri);
 		metadata.put("authUri",authUri);
 		metadata.put("tokenUri",tokenUri);
