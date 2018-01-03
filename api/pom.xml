@@ -41,6 +41,7 @@
             <type>pom</type>
         </dependency>
         <!-- End OpenMRS core -->
+        
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
