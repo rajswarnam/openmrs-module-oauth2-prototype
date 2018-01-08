@@ -1,6 +1,9 @@
 package org.openmrs.module.oauth2.api.util;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.oauth2.Client;
+import org.openmrs.module.oauth2.api.impl.UserCredentialsServiceImpl;
 import org.openmrs.module.oauth2.api.model.*;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -19,7 +22,11 @@ import java.util.Set;
  */
 public class ClientSpringOAuthUtils {
 
+	private static final Log log = LogFactory.getLog(ClientSpringOAuthUtils.class);
+
     public static Set<String> parseResources(Collection<Resource> resources) {
+    	if(log.isDebugEnabled())
+    		log.info("Entering parseResource");
         Set<String> resourceIdSet = new HashSet<String>();
         for (Resource resource : resources) {
             resourceIdSet.add(resource.getResource());
@@ -28,6 +35,8 @@ public class ClientSpringOAuthUtils {
     }
 
     public static Collection<GrantedAuthority> parseAuthorities(Collection<CustomGrantedAuthority> authorities) {
+    	if(log.isDebugEnabled())
+    		log.info("Entering Collection()");
         if(authorities==null)
             return new HashSet<GrantedAuthority>();
         Collection<GrantedAuthority> authoritySet = new HashSet<GrantedAuthority>();
@@ -38,6 +47,8 @@ public class ClientSpringOAuthUtils {
     }
 
     public static Set<String> parseRedirectURIs(Collection<RedirectURI> redirectURIs) {
+    	if(log.isDebugEnabled())
+    		log.info("Entering parseRedirectURIs");
         Set<String> redirectURISet = new HashSet<String>();
         for (RedirectURI redirectURI : redirectURIs) {
             redirectURISet.add(redirectURI.getRedirectURI());
@@ -46,6 +57,8 @@ public class ClientSpringOAuthUtils {
     }
 
     public static Set<String> parseAuthorizedGrantTypes(Collection<AuthorizedGrantType> authorizedGrantTypes) {
+    	if(log.isDebugEnabled())
+    		log.info("Entering parseAuthorizedGrantTypes");
         Set<String> authorizedGrantTypeSet = new HashSet<String>();
         for (AuthorizedGrantType authorizedGrantType : authorizedGrantTypes) {
             authorizedGrantTypeSet.add(authorizedGrantType.getAuthorizedGrantType());
@@ -54,6 +67,8 @@ public class ClientSpringOAuthUtils {
     }
 
     public static Set<String> parseScope(Collection<Scope> scopes) {
+    	if(log.isDebugEnabled())
+    		log.info("Entering parseScope");
         Set<String> scopeSet = new HashSet<String>();
         for (Scope scope : scopes) {
             scopeSet.add(scope.getScope());
@@ -70,6 +85,8 @@ public class ClientSpringOAuthUtils {
      * @return
      */
     public static <T> Collection<T> commaDelimitedStringToCollection(String commaDelimitedString, Client client, Class<T> elementClass) {
+    	if(log.isDebugEnabled())
+    		log.info("Entering commaDelimitedStringToCollection");
         Collection<T> collection = new HashSet<T>();
         String[] elementArray = commaDelimitedString.split(",");
         for (String element : elementArray) {

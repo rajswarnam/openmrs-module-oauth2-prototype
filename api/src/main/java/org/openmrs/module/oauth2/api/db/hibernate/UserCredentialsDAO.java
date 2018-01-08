@@ -1,6 +1,7 @@
 package org.openmrs.module.oauth2.api.db.hibernate;
 
-import org.hibernate.Query;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.User;
 import org.openmrs.api.db.ContextDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class UserCredentialsDAO extends HibernateOauth2DAO<User> {
+	private static final Log log = LogFactory.getLog(UserCredentialsDAO.class);
+	
     @Autowired
     ContextDAO contextDAO;
 
@@ -39,8 +42,12 @@ public class UserCredentialsDAO extends HibernateOauth2DAO<User> {
      * @return null, if no valid user exists in OpenMRS database
      */
     public User authenticate(String username, String password) {
+    	if(log.isDebugEnabled())
+    		log.info("Entering autheticate method for user" + username);
         User user = null;
         user = contextDAO.authenticate(username, password);
+        if(log.isDebugEnabled())
+        	log.info("user returned"+user.getName());
         return user;
     }
 }

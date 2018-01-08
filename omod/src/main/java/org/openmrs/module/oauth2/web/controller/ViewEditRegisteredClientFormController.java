@@ -45,6 +45,8 @@ public class ViewEditRegisteredClientFormController {
         Client client = getService().getClient(clientId);
     	if (log.isDebugEnabled()) {
         	log.debug("Entering showForm method" + client.toString());
+        	log.debug("client redirect URI"+client.getRedirectUriCollection().size());
+        	log.debug("client scopes"+client.getAuthorities().size());
     	}
         map.addAttribute("client", client);
         // Scopes

@@ -34,6 +34,7 @@ public class UserAuthenticationServiceImpl implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username = authentication.getName();
 		String password = authentication.getCredentials().toString();
+		if(log.isDebugEnabled())
 		log.info("Entering user authentication"+ username+"==password==>"+password);
 		try {
 			Context.authenticate(username, password);

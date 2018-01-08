@@ -1,5 +1,7 @@
 package org.openmrs.module.oauth2.api.impl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.ContextDAO;
@@ -11,31 +13,40 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
- * Implementation of {@link org.springframework.security.core.userdetails.UserDetailsService}
- * Read Username and Password from OpenMRS database and map it to {@link org.springframework.security.core.userdetails.UserDetails}
- * Created by OPSKMC on 8/9/15.
+ * Implementation of
+ * {@link org.springframework.security.core.userdetails.UserDetailsService} Read
+ * Username and Password from OpenMRS database and map it to
+ * {@link org.springframework.security.core.userdetails.UserDetails} Created by
+ * OPSKMC on 8/9/15.
  */
 @Deprecated
 public class UserCredentialsServiceImpl extends BaseOpenmrsService implements UserCredentialsService {
-    @Autowired
-    UserCredentialsDAO userCredentialsDAO;
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User userFromUserService = Context.getUserService().getUserByUsername(username);
+	private static final Log log = LogFactory.getLog(UserCredentialsServiceImpl.class);
 
-        return null;
-    }
+	@Autowired
+	UserCredentialsDAO userCredentialsDAO;
 
-    /**
-     * @param username
-     * @param password
-     * @return
-     * @see {@link org.openmrs.module.oauth2.api.UserCredentialsService#authenticate(String, String)}
-     */
-    @Override
-    public User authenticate(String username, String password) {
-        User user = userCredentialsDAO.authenticate(username, password);
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		if (log.isDebugEnabled())
+			log.info("Entering loadUserByUsername()");
+		User userFromUserService = Context.getUserService().getUserByUsername(username);
 
-        return user;
-    }
+		return null;
+	}
+
+	/**
+	 * @param username
+	 * @param password
+	 * @return
+	 * @see {@link org.openmrs.module.oauth2.api.UserCredentialsService#authenticate(String, String)}
+	 */
+	@Override
+	public User authenticate(String username, String password) {
+		if (log.isDebugEnabled())
+			log.info("Entering authenticate method()");
+		User user = userCredentialsDAO.authenticate(username, password);
+
+		return user;
+	}
 }

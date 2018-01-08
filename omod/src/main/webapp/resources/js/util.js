@@ -89,15 +89,20 @@ function getCSV(checkboxName){
 }
 
 function selectCheckBoxes(checkboxName, csvValue) {
+	//console.info('Entering selected checkbox'+csvValue);
     var checkboxes = document.getElementsByName(checkboxName);
-    var refValues = csvValue.split(" , ");
+   // var refValues = csvValue.split(" , ");
     for (var i = 0; i < checkboxes.length; i++) {
         var checkbox = checkboxes[i];
         var value = checkbox.value;
-        for (var j = 0; j < refValues.length; j++) {
-            if (refValues[j].localeCompare(value) == 0)
+      //  console.info('value'+value);
+        for (var j = 0; j < csvValue.length; j++) {
+        //	console.info('csvValue[j]'+csvValue[j]);
+        //	console.info('csvValue[j].localeCompare(value)'+csvValue[j].localeCompare(value));
+            if (csvValue[j].localeCompare(value) == 0){
                 checkbox.checked = true;
             break;
+        }
         }
     }
 }

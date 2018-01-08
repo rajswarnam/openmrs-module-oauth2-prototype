@@ -24,6 +24,9 @@ public class ClientAuthenticationServiceImpl implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    	if(log.isDebugEnabled())
+    		log.info("Entering authenticate()"+ authentication.getName());
+    	
         clientRegistrationService = getClientRegistrationService();
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
@@ -33,10 +36,12 @@ public class ClientAuthenticationServiceImpl implements AuthenticationProvider {
         if (clientRegistrationService.verifyClientCredentials(client, encodedCredentials.get(0), encodedCredentials.get(1))) {
             return new UsernamePasswordAuthenticationToken(username, password, client.getAuthorities());
         } else if (client.getAdditionalInformation().get("REQUEST_SOURCE").equals(clientDetailsService.REQUEST_SOURCE)) {
+        	if(log.isDebugEnabled())
             log.info("ClientAuthentcationProvider invoked by : " + clientDetailsService.REQUEST_SOURCE);
             client.getAdditionalInformation().remove("REQUEST_SOURCE");
             return new UsernamePasswordAuthenticationToken(username, password, client.getAuthorities());
         } else {
+        	if(log.isDebugEnabled())
             log.info("No Credentials found for Client : " + username);
             return null;
         }

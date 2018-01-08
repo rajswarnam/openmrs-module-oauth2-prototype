@@ -31,13 +31,17 @@ public class RegisteredClientIndexController {
 
     @ModelAttribute("clients")
     public List<Client> getRegisteredClients() {
+    	if(log.isDebugEnabled())
+    		log.info("entering getRegisteredClients()");
         List<Client> clients = null;
         ClientRegistrationService service = Context.getService(ClientRegistrationService.class);
         User user = Context.getAuthenticatedUser();
+        if(log.isDebugEnabled())
         log.info("user object is"+ (user!=null));
         if(user!=null && user.getId()!=null) {
         clients = service.getAllClientsForClientDeveloper(user);
         }else {
+        	if(log.isDebugEnabled())
         	log.info("User is null");
         }
         return clients;

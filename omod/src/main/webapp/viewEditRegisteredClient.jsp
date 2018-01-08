@@ -5,8 +5,18 @@
 <openmrs:htmlInclude file="/moduleResources/oauth2/js/util.js"/>
 <script>
     window.onload = function () {
-        selectCheckBoxes(scopeCollection, ${client.scopeCollection});
-        selectCheckBoxes(grantTypeCollection, ${client.grantTypeCollection});
+        
+        var scopes = [];
+ <c:forEach items="${client.scopeCollection}" var="id">
+ scopes.push("${id}"); 
+ </c:forEach>
+ var grants=[];
+ <c:forEach items="${client.grantTypeCollection}" var="selectedGrant">
+ grants.push("${selectedGrant}"); 
+ </c:forEach>
+  
+        selectCheckBoxes('scope', scopes);
+        selectCheckBoxes('grantType',grants);
     };
 </script>
 <style>
@@ -22,19 +32,6 @@
         margin: 16px;
     }
 </style>
-<script>
-    $(document).ready(function () {
-        $("")
-        $("button").click(function () {
-            var pageUrl = window.location.href;
-            alert("Are you sure you want to unregister this application??");
-            $.ajax({
-                url: pageUrl,
-                type: 'DELETE'
-            });
-        });
-    });
-</script>
 <h2><openmrs:message code="oauth2.client.registered.viewEdit"/></h2>
 <form method="post">
     <c:set var="client" value="${client}"/>
@@ -53,12 +50,15 @@
         </tr>
         <tr>
             <td>Redirection URI</td>
-            <td><input type="text" name="registeredRedirectURIs" value="${client.registeredRedirectUri.iterator.next}"></td>
+             <c:forEach var="entry" items="${client.registeredRedirectUri}"> 
+            <td><input type="text" name="registeredRedirectURIs" value="${entry}"></td>
+            </c:forEach>
         </tr>
         <tr>
             <td>Client Type</td>
             <td>
                 <select name="clientType">
+                <c:out value="${client.clientType}"/>
                     <c:forEach items="${clientTypes}" var="clientType">
                         <c:if test="${clientType==client.clientType}">
                             <option value="${clientType}" selected>${clientType}</option>
